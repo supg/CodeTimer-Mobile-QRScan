@@ -12,11 +12,26 @@ This is a fork of [CodeTimer-Mobile](https://github.com/owlysk/CodeTimer-Mobile)
 
 [Download the Latest APK](https://github.com/supg/CodeTimer-Mobile-QRScan/releases/latest)
 
+## Prerequisites
+
+### Kimai Mobile Setup Bundle Plugin Required
+
+**IMPORTANT:** To use the QR code scanner feature, you must have the **Kimai Mobile Setup Bundle** plugin installed on your Kimai2 instance.
+
+**Install the plugin:**
+1. Follow the installation instructions at: [cloudrizon/kimai-mobile-setup-bundle](https://github.com/cloudrizon/kimai-mobile-setup-bundle)
+2. Once installed, the plugin will add a "Mobile Setup" section to your Kimai user profile
+3. This section allows you to generate QR codes containing your server URL and API token
+
+**Without this plugin:**
+- You can still use the app by manually entering your server URL and API token
+- The QR code scanner button will work but you won't have QR codes to scan
+
 ## Installation
 
 ### Option 1: Download Pre-built APK (Recommended)
 1. Go to [Releases](https://github.com/supg/CodeTimer-Mobile-QRScan/releases/latest)
-2. Download the debug APK: `CodeTimer-Mobile-QRScan-vX.X.X-debug.apk`
+2. Download the APK: `CodeTimer-Mobile-QRScan-v1.2.0.apk`
 3. Enable "Install from Unknown Sources" on your Android device
 4. Install the APK
 

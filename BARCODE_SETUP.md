@@ -10,7 +10,10 @@ This fork of CodeTimer-Mobile adds barcode scanning functionality to quickly con
 
 ## Prerequisites
 
-1. **Kimai2 Server** with the **Kimai Mobile Setup** plugin installed
+1. **Kimai2 Server** with the **[Kimai Mobile Setup Bundle](https://github.com/cloudrizon/kimai-mobile-setup-bundle)** plugin installed
+   - This plugin is **required** to generate QR codes for mobile setup
+   - Install from: [cloudrizon/kimai-mobile-setup-bundle](https://github.com/cloudrizon/kimai-mobile-setup-bundle)
+   - Without this plugin, you can still use the app by manually entering server URL and API token
 2. **Mobile device** with camera support (Android)
 3. **API Token** generated from your Kimai user profile
 
