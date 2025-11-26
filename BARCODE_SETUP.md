@@ -125,8 +125,9 @@ This is a local fork of the [CodeTimer-Mobile](https://github.com/owlysk/CodeTim
 
 Apache-2.0 (same as original CodeTimer-Mobile project)
 
-## Credits
+## Credits & Acknowledgments
 
-- Original CodeTimer-Mobile by Martin Lačný - Owly
-- Barcode scanning feature implementation for Aristotle Accounting
-- Uses phonegap-plugin-barcodescanner by PhoneGap team
+- **Original CodeTimer-Mobile** by Martin Lačný - Owly
+- **QR Code Scanner Feature** implementation for Aristotle Accounting
+- **[cloudrizon](https://github.com/cloudrizon)** - Creator of the [Kimai Mobile Setup Bundle](https://github.com/cloudrizon/kimai-mobile-setup-bundle) plugin, which this scanner integrates with
+- **phonegap-plugin-barcodescanner** (v8.1.0) by PhoneGap team

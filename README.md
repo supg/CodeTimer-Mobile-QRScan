@@ -66,12 +66,19 @@ You can try CodeTimer with Kimai [DEMO](https://www.kimai.org/en/demo.html):
 - Host : `https://demo.kimai.org`
 - API token :  `token_user`
 
-## Credits
+## Credits & Acknowledgments
 
-Original CodeTimer-Mobile by Martin Lačný - Owly
+### Original Author
+**CodeTimer-Mobile** by Martin Lačný - Owly
 If you enjoy the original app, support the developer:
 
 <a href="https://www.buymeacoffee.com/owlysk" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+### Acknowledgments
+
+**[cloudrizon](https://github.com/cloudrizon)** - Creator of the [Kimai Mobile Setup Bundle](https://github.com/cloudrizon/kimai-mobile-setup-bundle) plugin, which generates the QR codes that this app's scanner feature integrates with. This mobile app fork builds upon their excellent work to provide seamless mobile setup.
+
+**QR Code Scanner Integration** - This fork adds QR code scanning functionality specifically designed to work with cloudrizon's Kimai Mobile Setup Bundle plugin.
 
 # Use HTTPS
 
