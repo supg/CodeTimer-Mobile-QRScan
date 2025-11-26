@@ -1,0 +1,94 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Add Android platform
+        run: cordova platform add android
+
+      - name: Build Debug APK
+        run: cordova build android --debug
+
+      - name: Build Release APK
+        run: cordova build android --release
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CodeTimer-Mobile-QRScan-debug
+          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CodeTimer-Mobile-QRScan-release
+          path: platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+          body: |
+            ## CodeTimer Mobile with QR Code Scanner
+
+            ### New Features
+            - QR code scanning for quick setup with Kimai Mobile Setup plugin
+            - Automatic server URL and API token configuration
+            - Camera support for barcode scanning
+
+            ### Installation
+
+            **Debug APK** (for testing):
+            - Download `app-debug.apk`
+            - Enable "Install from Unknown Sources" on your Android device
+            - Install the APK
+
+            **Release APK** (unsigned):
+            - Download `app-release-unsigned.apk`
+            - Note: This is unsigned and may require signing for production use
+
+            ### Usage
+            1. Open the app and go to Settings
+            2. Click "Scan QR Code"
+            3. Scan the QR code from your Kimai Mobile Setup plugin
+            4. Click Save
+
+            For more details, see [BARCODE_SETUP.md](https://github.com/supg/CodeTimer-Mobile-QRScan/blob/main/BARCODE_SETUP.md)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

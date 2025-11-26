@@ -1,0 +1,116 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.2.0)'
+        required: true
+        default: 'v1.2.0'
+
+jobs:
+  release:
+    name: Build and Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Add Android platform
+        run: cordova platform add android
+
+      - name: Build Debug APK
+        run: cordova build android --debug
+
+      - name: Build Release APK
+        run: cordova build android --release
+
+      - name: Rename APKs
+        run: |
+          mv platforms/android/app/build/outputs/apk/debug/app-debug.apk \
+             CodeTimer-Mobile-QRScan-${{ github.event.inputs.version }}-debug.apk
+          mv platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk \
+             CodeTimer-Mobile-QRScan-${{ github.event.inputs.version }}-release-unsigned.apk
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+          files: |
+            CodeTimer-Mobile-QRScan-${{ github.event.inputs.version }}-debug.apk
+            CodeTimer-Mobile-QRScan-${{ github.event.inputs.version }}-release-unsigned.apk
+          body: |
+            ## CodeTimer Mobile with QR Code Scanner - ${{ github.event.inputs.version }}
+
+            ### Features
+            - ✅ QR code scanning for quick setup with Kimai Mobile Setup plugin
+            - ✅ Automatic server URL and API token configuration
+            - ✅ Camera support for barcode scanning
+            - ✅ Compatible with Kimai2 self-hosted instances
+
+            ### Installation Instructions
+
+            #### Debug APK (Recommended for Testing)
+            1. Download `CodeTimer-Mobile-QRScan-${{ github.event.inputs.version }}-debug.apk`
+            2. Enable "Install from Unknown Sources" in your Android device settings
+            3. Install the APK file
+
+            #### Release APK (Unsigned)
+            1. Download `CodeTimer-Mobile-QRScan-${{ github.event.inputs.version }}-release-unsigned.apk`
+            2. Note: This APK is unsigned and intended for manual signing
+            3. For production use, you should sign this APK with your own keystore
+
+            ### How to Use QR Code Scanner
+            1. Open the CodeTimer Mobile app
+            2. Navigate to **Settings** (gear icon)
+            3. Click the **"Scan QR Code"** button (green button)
+            4. Allow camera permissions when prompted
+            5. Scan the QR code displayed in your Kimai Mobile Setup plugin
+            6. The app will automatically fill in your server URL and API token
+            7. Click **"Save"** to complete the setup
+
+            ### What's in the QR Code?
+            The QR code from Kimai Mobile Setup contains:
+            - Server URL (your Kimai instance URL)
+            - User email
+            - API token for authentication
+
+            ### Documentation
+            For detailed documentation, see [BARCODE_SETUP.md](https://github.com/supg/CodeTimer-Mobile-QRScan/blob/main/BARCODE_SETUP.md)
+
+            ### Original Project
+            This is a fork of [CodeTimer-Mobile](https://github.com/owlysk/CodeTimer-Mobile) by Martin Lačný - Owly
+
+            ### Requirements
+            - Android device with camera
+            - Kimai2 instance with Mobile Setup plugin installed
+            - API token generated from your Kimai user profile
+
+            ---
+            🤖 Built with GitHub Actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
