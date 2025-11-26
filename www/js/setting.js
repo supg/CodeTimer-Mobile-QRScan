@@ -1,3 +1,49 @@
+function scanQRCode(){
+    if(typeof(cordova) === "undefined" || typeof(cordova.plugins) === "undefined" || typeof(cordova.plugins.barcodeScanner) === "undefined")
+    {
+        navigator.notification.alert("Barcode scanner is not available. Please use a mobile device.");
+        return;
+    }
+
+    cordova.plugins.barcodeScanner.scan(
+        function (result) {
+            if (!result.cancelled) {
+                try {
+                    var qrData = JSON.parse(result.text);
+
+                    if(qrData.serverURL && qrData.apiToken) {
+                        $('#host').val(qrData.serverURL);
+                        $('#token').val(qrData.apiToken);
+
+                        navigator.notification.alert("QR Code scanned successfully! Please click Save to continue.");
+                    } else {
+                        navigator.notification.alert("Invalid QR Code format. Please scan a valid Kimai Mobile Setup QR code.");
+                    }
+                } catch (e) {
+                    if(debug) console.log('QR Code parse error:', e);
+                    navigator.notification.alert("Failed to parse QR Code data. Please try again or enter details manually.");
+                }
+            }
+        },
+        function (error) {
+            if(debug) console.log('Scan error:', error);
+            navigator.notification.alert("Scan failed: " + error);
+        },
+        {
+            preferFrontCamera : false,
+            showFlipCameraButton : true,
+            showTorchButton : true,
+            torchOn: false,
+            prompt : "Place the QR code inside the scan area",
+            resultDisplayDuration: 500,
+            formats : "QR_CODE",
+            orientation : "portrait",
+            disableAnimations : true,
+            disableSuccessBeep: false
+        }
+    );
+}
+
 function testConnection(){
     var host = $('#host').val();
     var token = $('#token').val();
@@ -11,7 +57,7 @@ function testConnection(){
         //Neutralino.os.showMessageBox("Test connection", "Connection is ok\nVersion: " + result)
         navigator.notification.alert("Connection is ok\nVersion: " + result);
     }
-    else 
+    else
     {
         //Neutralino.os.showMessageBox("Test connection","Connection is invalid\nError: " + result)
         navigator.notification.alert("Connection is invalid\nError: " + result);

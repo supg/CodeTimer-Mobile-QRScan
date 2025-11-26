@@ -16,6 +16,14 @@
     <preference name="android-minSdkVersion" value="24"/>
     <preference name="android-targetSdkVersion" value="35"/>
 
+    <!-- Camera permissions for barcode scanning -->
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-feature android:name="android.hardware.camera" />
+            <uses-feature android:name="android.hardware.camera.autofocus" />
+        </config-file>
+    </platform>
 
     <content src="index.html" />
     <allow-intent href="*" />

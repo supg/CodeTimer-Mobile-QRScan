@@ -21,7 +21,8 @@
   "devDependencies": {
     "cordova-android": "^13.0.0",
     "cordova-browser": "^7.0.0",
-    "cordova-plugin-dialogs": "^2.0.2"
+    "cordova-plugin-dialogs": "^2.0.2",
+    "phonegap-plugin-barcodescanner": "^8.1.0"
   },
   "cordova": {
     "platforms": [
@@ -29,7 +30,8 @@
       "android"
     ],
     "plugins": {
-      "cordova-plugin-dialogs": {}
+      "cordova-plugin-dialogs": {},
+      "phonegap-plugin-barcodescanner": {}
     }
   }
 }
